@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
       lastName: lastName,
       email: email,
       passwordHash: hashedPassword,
-      roles: ["customer"],
+      roles: "customer",
     });
 
     const payload = {
@@ -68,6 +68,10 @@ const editUser = (req, res) => {};
 
 const deleteUser = (req, res) => {};
 
+const getAllUsers = async (req, res) => {
+  const users = await User.find({});
+  res.status(200).json({ users });
+};
 // const postForgotPassword = (req, res) => {};
 
 module.exports = {
@@ -75,4 +79,5 @@ module.exports = {
   editUser,
   deleteUser,
   createUser,
+  getAllUsers,
 };

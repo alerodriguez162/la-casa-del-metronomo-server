@@ -20,4 +20,6 @@ router.get("/delete", authorization, usersController.deleteUser);
 
 router.get("/", authorization, usersController.getUser);
 
+router.get("/all", authorization, usersController.getAllUsers);
+
 module.exports = router;

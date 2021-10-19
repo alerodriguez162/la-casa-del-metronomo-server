@@ -14,9 +14,7 @@ const userSchema = mongoose.Schema(
       unique: true,
       required: true,
     },
-    roles: {
-      type: [String],
-    },
+    roles: String,
     favorites: [
       {
         type: mongoose.Schema.Types.ObjectId,
