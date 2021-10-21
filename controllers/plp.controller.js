@@ -2,8 +2,7 @@ const Product = require("../models/Product.model");
 
 const getProducts = async (req, res, next) => {
   try {
-    const { search } = req.query;
-    const { categories, featured } = req.body;
+    const { categories, featured, search } = req.body;
 
     if (!search) {
       if (categories && categories.length) {
@@ -20,7 +19,7 @@ const getProducts = async (req, res, next) => {
       res.status(200).json({ products: products });
       return;
     } else {
-      const products = await Product.find({ title: { $regex: querys.search || "", $options: "i" } });
+      const products = await Product.find({ title: { $regex: search || "", $options: "i" } });
       res.status(200).json({ products: products });
       return;
     }
