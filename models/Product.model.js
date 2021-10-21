@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 const productSchema = mongoose.Schema(
   {
     featured: Boolean,
-    title: String,
+    title: { type: String, unique: true },
     price: Number,
     description: String,
-    categories: [String],
+    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Categories" }],
     image: [String],
     specifications: [
       {
@@ -16,8 +16,14 @@ const productSchema = mongoose.Schema(
       },
     ],
     rating: {
-      rate: Number,
-      count: Number,
+      rate: {
+        type: Number,
+        default: 0,
+      },
+      count: {
+        type: Number,
+        default: 0,
+      },
     },
     stock: Number,
   },

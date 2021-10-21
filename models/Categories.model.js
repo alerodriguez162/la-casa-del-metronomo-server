@@ -1,13 +1,23 @@
 // Iteration #1
 const mongoose = require("mongoose");
 
-const productSchema = mongoose.Schema(
+const categoriesSchema = mongoose.Schema(
   {
-    label: String,
+    label: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    products: [
+      {
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        count: Number,
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const Product = mongoose.model("Product", productSchema);
+const Categories = mongoose.model("Categories", categoriesSchema);
 
-module.exports = Product;
+module.exports = Categories;

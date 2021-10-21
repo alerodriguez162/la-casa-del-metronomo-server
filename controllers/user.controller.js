@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
   }
 
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, picture } = req.body;
 
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
@@ -34,6 +34,7 @@ const createUser = async (req, res) => {
       email: email,
       passwordHash: hashedPassword,
       roles: "customer",
+      picture: picture,
     });
 
     const payload = {
@@ -64,9 +65,29 @@ const createUser = async (req, res) => {
   }
 };
 
-const editUser = (req, res) => {};
+const editUser = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const userFind = await User.findOneAndUpdate({ email: email }, req.body, { new: true });
+    return res.status(200).json({
+      userFind,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-const deleteUser = (req, res) => {};
+const deleteUser = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const userFind = await User.findOneAndRemove({ email: email });
+    return res.status(200).json({
+      userFind,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const getAllUsers = async (req, res) => {
   const users = await User.find({});

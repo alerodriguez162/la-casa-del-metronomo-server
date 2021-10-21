@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Ingresar contraseña válida"],
     },
+    picture: String,
     email: {
       type: String,
       unique: true,

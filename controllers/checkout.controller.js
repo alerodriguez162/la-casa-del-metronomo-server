@@ -20,7 +20,8 @@ const calculateAmount = (items) => {
 //       total: calculateAmount(currentCart.products),
 //     });
 //   } catch (error) {
-//     res.status(500).json(error.message);
+//         res.status(500).json({ message: error.message });
+
 //   }
 // };
 
@@ -81,7 +82,7 @@ const submitCheckout = async (req, res) => {
       total: calculateAmount(currentCart.products),
     });
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 

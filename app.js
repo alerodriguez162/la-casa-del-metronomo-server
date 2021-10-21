@@ -26,4 +26,7 @@ app.use("/checkout", checkout);
 const user = require("./routes/user.routes");
 app.use("/user", user);
 
+const categories = require("./routes/categories.routes");
+app.use("/categories", categories);
+
 module.exports = app;

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const plpController = require("../controllers/plp.controller");
 
-router.get("/", plpController.getProducts);
+router.post("/", plpController.getProducts);
 
 module.exports = router;

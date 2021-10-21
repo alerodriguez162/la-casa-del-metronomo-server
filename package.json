@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "debug": "nodemon --inspect server.js",
     "feedDB": "node bin/products.seed.js"
   },
   "dependencies": {

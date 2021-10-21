@@ -16,7 +16,7 @@ router.post(
 
 router.post("/edit", authorization, usersController.editUser);
 
-router.get("/delete", authorization, usersController.deleteUser);
+router.delete("/delete/:email", authorization, usersController.deleteUser);
 
 router.get("/", authorization, usersController.getUser);
 
