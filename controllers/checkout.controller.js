@@ -27,6 +27,20 @@ const calculateAmount = (items) => {
 //   }
 // };
 
+const summaries = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    const summaryFind = await Summary.find({ user: currentUser.id }).populate("summary.products.product");
+
+    res.status(200).json({
+      orders: summaryFind,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const submitCheckout = async (req, res) => {
   try {
     const { firstName, lastName, email, address, address2, state, zip, sameAddress, cardName, stripeToken } = req.body;
@@ -64,7 +78,6 @@ const submitCheckout = async (req, res) => {
         new: true,
       }
     ).populate("products.product");
-
     let date = new Date();
 
     let day = date.getDate();
@@ -77,7 +90,7 @@ const submitCheckout = async (req, res) => {
       newDate = `${day}-${month}-${year}`;
     }
 
-    const summaryCreate = await Summary.create({
+    await Summary.create({
       summary: {
         date: newDate,
         charge: charge,
@@ -103,5 +116,6 @@ const submitCheckout = async (req, res) => {
 
 module.exports = {
   // createCheckout,
+  summaries,
   submitCheckout,
 };

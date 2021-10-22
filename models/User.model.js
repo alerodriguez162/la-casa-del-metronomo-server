@@ -22,12 +22,6 @@ const userSchema = mongoose.Schema(
         ref: "Product",
       },
     ],
-    orders: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Summary",
-      },
-    ],
   },
   { timestamps: true }
 );
