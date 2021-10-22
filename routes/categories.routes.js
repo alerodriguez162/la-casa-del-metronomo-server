@@ -6,6 +6,6 @@ router.post("/create", authorization, categoriesController.createCategory);
 
 router.delete("/delete/:categoryId", authorization, categoriesController.deleteCategory);
 
-router.get("/all", authorization, categoriesController.allCategories);
+router.get("/all", categoriesController.allCategories);
 
 module.exports = router;
