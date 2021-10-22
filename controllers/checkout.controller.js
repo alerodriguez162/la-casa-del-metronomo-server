@@ -1,6 +1,8 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 const Cart = require("../models/Cart.model");
+const Summary = require("../models/Summary.model");
+const User = require("../models/User.model");
 
 const calculateAmount = (items) => {
   let amount = items.reduce((acc, item) => {
@@ -38,6 +40,7 @@ const submitCheckout = async (req, res) => {
       currency: "mxn",
       description: "Example charge",
       source: stripeToken,
+      receipt_email: email,
     });
     let statusCart = 0;
     if (charge.status === "succeeded") statusCart = 2;
@@ -73,6 +76,24 @@ const submitCheckout = async (req, res) => {
     } else {
       newDate = `${day}-${month}-${year}`;
     }
+
+    const summaryCreate = await Summary.create({
+      summary: {
+        date: newDate,
+        charge: charge,
+        cart: newCart,
+        products: newCart.products,
+        total: calculateAmount(currentCart.products),
+      },
+      user: currentUser.id,
+    });
+    console.log(currentUser.id);
+    await User.findByIdAndUpdate(currentUser._id, {
+      $push: {
+        orders: summaryCreate._id,
+      },
+    });
+
     res.status(200).json({
       date: newDate,
       charge: charge,

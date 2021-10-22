@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Ingresar contraseña válida"],
     },
-    picture: String,
+    picture: { type: String, default: "https://res.cloudinary.com/di9gjsobh/image/upload/v1634893573/pngkey.com-notas-musicales-png-1059739_vbxbwk.png" },
     email: {
       type: String,
       unique: true,
@@ -22,13 +22,18 @@ const userSchema = mongoose.Schema(
         ref: "Product",
       },
     ],
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Summary",
+      },
+    ],
   },
   { timestamps: true }
 );
 
 userSchema.options.toJSON = {
   transform: function (doc, ret) {
-    delete ret._id;
     delete ret.passwordHash;
     delete ret.__v;
   },
