@@ -34,7 +34,7 @@ const submitCheckout = async (req, res) => {
 
     const currentUser = req.user;
 
-    const currentCart = await Cart.findOne({ user: currentUser._id }).populate("products.product");
+    const currentCart = await Cart.findOne({ user: currentUser.id }).populate("products.product");
     const charge = await stripe.charges.create({
       amount: calculateAmount(currentCart.products) * 100,
       currency: "mxn",
@@ -46,7 +46,7 @@ const submitCheckout = async (req, res) => {
     if (charge.status === "succeeded") statusCart = 2;
     else console.log(charge.status);
     let newCart = await Cart.findOneAndUpdate(
-      { user: currentUser._id },
+      { user: currentUser.id },
       {
         firstName: firstName,
         lastName: lastName,
@@ -87,12 +87,6 @@ const submitCheckout = async (req, res) => {
       },
       user: currentUser.id,
     });
-    console.log(currentUser.id);
-    await User.findByIdAndUpdate(currentUser._id, {
-      $push: {
-        orders: summaryCreate._id,
-      },
-    });
 
     res.status(200).json({
       date: newDate,
@@ -102,6 +96,7 @@ const submitCheckout = async (req, res) => {
       total: calculateAmount(currentCart.products),
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
