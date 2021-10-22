@@ -84,6 +84,7 @@ const getCart = async (req, res) => {
     const cartFind = await Cart.findOne({ user: currentUser._id }).populate("products.product");
 
     res.status(200).json({
+      totalProducts: cartFind.products.length,
       status: cartFind.status,
       products: cartFind.products.length > 0 ? cartFind.products : [],
       total: calculateAmount(cartFind.products),

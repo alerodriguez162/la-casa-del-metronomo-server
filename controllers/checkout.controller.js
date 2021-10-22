@@ -52,7 +52,6 @@ const submitCheckout = async (req, res) => {
         address2: address2,
         state: state,
         status: statusCart,
-
         zip: zip,
         sameAddress: sameAddress,
         cardName: cardName,
